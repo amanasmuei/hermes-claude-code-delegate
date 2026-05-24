@@ -1,44 +1,41 @@
 <div align="center">
 
-# ☤ claude-code-delegate
+<img src="./.github/assets/banner.svg" alt="claude-code-delegate — delegate tasks to a headless Claude Code agent in an isolated, per-stream Docker sandbox" width="100%">
 
-### A Hermes Agent plugin that delegates tasks to a **headless Claude Code** agent inside an **isolated, per-stream Docker sandbox**.
+<br/>
+<br/>
 
-[![Hermes Agent](https://img.shields.io/badge/Hermes%20Agent-plugin-6E56CF?style=flat-square)](https://github.com/NousResearch/hermes-agent)
-[![Delegates to](https://img.shields.io/badge/delegates%20to-Claude%20Code-D97757?style=flat-square)](https://docs.claude.com/en/docs/claude-code)
-[![Sandbox](https://img.shields.io/badge/sandbox-Docker-2496ED?style=flat-square&logo=docker&logoColor=white)](https://www.docker.com/)
-[![Python](https://img.shields.io/badge/Python-3.11%2B-3776AB?style=flat-square&logo=python&logoColor=white)](https://www.python.org/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-3da639?style=flat-square)](./LICENSE)
-[![PRs welcome](https://img.shields.io/badge/PRs-welcome-brightgreen?style=flat-square)](#-contributing)
-
-<em>Hand a whole task to Claude — it plans, executes, and reports back — while the box keeps it safely contained.</em>
+[![Hermes Agent](https://img.shields.io/badge/Hermes%20Agent-plugin-6E56CF?style=for-the-badge&labelColor=0B0E14)](https://github.com/NousResearch/hermes-agent)
+[![Delegates to Claude Code](https://img.shields.io/badge/delegates%20to-Claude%20Code-D97757?style=for-the-badge&labelColor=0B0E14)](https://docs.claude.com/en/docs/claude-code)
+[![Docker](https://img.shields.io/badge/sandbox-Docker-2496ED?style=for-the-badge&labelColor=0B0E14&logo=docker&logoColor=white)](https://www.docker.com/)
+[![License MIT](https://img.shields.io/badge/license-MIT-3da639?style=for-the-badge&labelColor=0B0E14)](./LICENSE)
 
 </div>
 
 > [!NOTE]
-> This runs **`claude -p`** (Claude Code as a *full autonomous agent*), not `claude mcp serve` (which would merely lend Claude's tools to Hermes' model). The distinction is the whole point: **Claude's model does the work.**
+> This runs **`claude -p`** (Claude Code as a *full autonomous agent*), not `claude mcp serve` (which would merely lend Claude's tools to Hermes' model). That distinction is the whole point: **Claude's model does the work.**
 
 ---
 
-## 📑 Table of contents
+## Contents
 
-- [Why this exists](#-why-this-exists)
-- [How it works](#-how-it-works)
-- [Quick start](#-quick-start)
-- [Permission modes](#-permission-modes)
-- [Tools &amp; commands](#-tools--commands)
-- [Streams &amp; continuity](#-streams--continuity)
-- [Configuration](#-configuration)
-- [Testing](#-testing)
-- [Troubleshooting](#-troubleshooting)
-- [Architecture](#-architecture)
-- [Security notes](#-security-notes)
-- [Contributing](#-contributing)
-- [License](#-license)
+- [Why this exists](#why-this-exists)
+- [How it works](#how-it-works)
+- [Quick start](#quick-start)
+- [Permission modes](#permission-modes)
+- [Tools and commands](#tools-and-commands)
+- [Streams and continuity](#streams-and-continuity)
+- [Configuration](#configuration)
+- [Testing](#testing)
+- [Troubleshooting](#troubleshooting)
+- [Architecture](#architecture)
+- [Security notes](#security-notes)
+- [Contributing](#contributing)
+- [License](#license)
 
 ---
 
-## 💡 Why this exists
+## Why this exists
 
 | Concern | Decision |
 |---|---|
@@ -49,7 +46,7 @@
 
 ---
 
-## ⚙️ How it works
+## How it works
 
 A delegated task in the default `boundary` mode, end to end:
 
@@ -58,14 +55,14 @@ sequenceDiagram
     actor User
     participant Hermes as Hermes (orchestrator)
     participant Plugin as delegate_to_claude_code
-    participant Box as Docker sandbox<br/>(per stream)
-    participant CC as Claude Code<br/>(headless)
+    participant Box as Docker sandbox (per stream)
+    participant CC as Claude Code (headless)
 
     User->>Hermes: "Delegate: create hello.py"
     Hermes->>Plugin: call (permission_mode=boundary)
     Plugin-->>Hermes: status = approval_required (+ preview)
     Hermes->>User: Approve running this in the sandbox?
-    User->>Hermes: 👍 yes
+    User->>Hermes: yes
     Hermes->>Plugin: call again (confirmed=true)
     Plugin->>Box: ensure warm container + volume
     Plugin->>CC: claude -p "<task>" --output-format json
@@ -78,16 +75,16 @@ Each **stream** is its own isolated container + volume, so unrelated work never 
 
 ```mermaid
 flowchart LR
-    H["🧠 Hermes<br/>(host)"]
-    H -->|stream &quot;feature-x&quot;| A["📦 cc-hermes-feature-x<br/>+ volume"]
-    H -->|stream &quot;research&quot;| B["📦 cc-hermes-research<br/>+ volume"]
-    A --- A2["🤖 claude -p ↻ --continue"]
-    B --- B2["🤖 claude -p ↻ --continue"]
+    H["Hermes (host)"]
+    H -->|stream &quot;feature-x&quot;| A["cc-hermes-feature-x + volume"]
+    H -->|stream &quot;research&quot;| B["cc-hermes-research + volume"]
+    A --- A2["claude -p, continued via --continue"]
+    B --- B2["claude -p, continued via --continue"]
 ```
 
 ---
 
-## 🚀 Quick start
+## Quick start
 
 > [!IMPORTANT]
 > **Prerequisites:** Docker running (`docker info`), Hermes installed (`hermes --version`), and an `ANTHROPIC_API_KEY`.
@@ -105,24 +102,24 @@ export ANTHROPIC_API_KEY=sk-ant-...
 hermes plugins enable claude-code-delegate
 
 # 4. Restart Hermes, then confirm it registered
-hermes plugins list      # → claude-code-delegate: enabled
+hermes plugins list      # -> claude-code-delegate: enabled
 ```
 
 Then, in any conversation:
 
-> 🗣️ *"Delegate to Claude Code in **plan** mode: list the workspace files and propose a hello-world script."*
+> *"Delegate to Claude Code in **plan** mode: list the workspace files and propose a hello-world script."*
 
-`plan` mode changes nothing, so it's the safest first run.
+`plan` mode changes nothing, so it is the safest first run.
 
 ---
 
-## 🔐 Permission modes
+## Permission modes
 
 Headless Claude **cannot** pause and ask a human mid-run — so you choose the posture up front via `permission_mode`:
 
 | Mode | Hermes-side gate | Inside the box | Best for |
 |---|---|---|---|
-| **`boundary`** _(default)_ | Returns `approval_required`; user OKs in chat → re-call with `confirmed=true` | `--permission-mode acceptEdits` | First run / sensitive work |
+| **`boundary`** _(default)_ | Returns `approval_required`; user OKs in chat then re-call with `confirmed=true` | `--permission-mode acceptEdits` | First run / sensitive work |
 | **`sandbox`** | none | `--dangerously-skip-permissions` | Autonomous / continuous (trust the box) |
 | **`acceptEdits`** | none | `--permission-mode acceptEdits` | Auto-edit; risky ops denied + reported |
 | **`plan`** | none | `--permission-mode plan` | Dry run — Claude plans, changes nothing |
@@ -130,24 +127,24 @@ Headless Claude **cannot** pause and ask a human mid-run — so you choose the p
 The `boundary` handshake happens **inside the conversation**, so it works identically from the CLI *and* from gateway platforms (Telegram, Discord, …). If Claude reports it was blocked for lack of permission, the result carries `blocked_on_permissions: true` so it can be surfaced to the user.
 
 <details>
-<summary><strong>Why no live per-action approval bridge?</strong></summary>
+<summary><strong>Why there is no live per-action approval bridge</strong></summary>
 
 <br/>
 
-Claude Code *can* externalize each permission decision (`--permission-prompt-tool` / SDK `canUseTool`) back to an orchestrator. It's intentionally **not** wired in here because it **blocks the agent until a human answers** — which fights the async/background model ("talk to it from Telegram while it works"). The cleaner mental model: you already chose to trust the box by isolating it, so authorize *within* the box and put the human checkpoint at the box's **boundary**. Add the live bridge only if your users are always present synchronously.
+Claude Code *can* externalize each permission decision (`--permission-prompt-tool` / SDK `canUseTool`) back to an orchestrator. It is intentionally **not** wired in here because it **blocks the agent until a human answers** — which fights the async/background model ("talk to it from Telegram while it works"). The cleaner mental model: you already chose to trust the box by isolating it, so authorize *within* the box and put the human checkpoint at the box's **boundary**. Add the live bridge only if your users are always present synchronously.
 
 </details>
 
 ---
 
-## 🛠️ Tools & commands
+## Tools and commands
 
-| Type | Name | Signature |
+| Kind | Name | Signature |
 |---|---|---|
-| 🧰 Tool | `delegate_to_claude_code` | `(task, stream_id?, permission_mode?, confirmed?, fresh_session?, timeout_seconds?)` |
-| 🧰 Tool | `claude_code_streams` | `(action: list \| stop \| remove, stream_id?)` |
-| ⌨️ Command | `/cc-streams` | `[list \| stop \| remove] [stream_id]` |
-| 🪝 Hook | `on_session_end` | Auto-hibernates running sandboxes (volumes kept) |
+| Tool | `delegate_to_claude_code` | `(task, stream_id?, permission_mode?, confirmed?, fresh_session?, timeout_seconds?)` |
+| Tool | `claude_code_streams` | `(action: list \| stop \| remove, stream_id?)` |
+| Command | `/cc-streams` | `[list \| stop \| remove] [stream_id]` |
+| Hook | `on_session_end` | Auto-hibernates running sandboxes (volumes kept) |
 
 <details>
 <summary><strong>Parameter reference — <code>delegate_to_claude_code</code></strong></summary>
@@ -167,10 +164,10 @@ Claude Code *can* externalize each permission decision (`--permission-prompt-too
 
 ---
 
-## 🧵 Streams & continuity
+## Streams and continuity
 
-- **Stream** = one line of related work. Tasks sharing a `stream_id` reuse a single warm container (`cc-hermes-<stream_id>`) and a persistent volume (`cc-hermes-vol-<stream_id>`) mounted at `/work`, with `HOME=/work` so Claude's `~/.claude` session store persists too.
-- After the first task, subsequent tasks pass `--continue` → **same conversation**, so Claude remembers prior work without re-discovering the codebase.
+- A **stream** is one line of related work. Tasks sharing a `stream_id` reuse a single warm container (`cc-hermes-<stream_id>`) and a persistent volume (`cc-hermes-vol-<stream_id>`) mounted at `/work`, with `HOME=/work` so Claude's `~/.claude` session store persists too.
+- After the first task, subsequent tasks pass `--continue` so they continue the **same conversation** — Claude remembers prior work instead of re-discovering the codebase.
 - Between bursts, containers **hibernate** (`docker stop`); the next task starts them warm. State survives on the volume.
 
 ```bash
@@ -181,7 +178,7 @@ Claude Code *can* externalize each permission decision (`--permission-prompt-too
 
 ---
 
-## 🔧 Configuration
+## Configuration
 
 | Variable | Default | Purpose |
 |---|---|---|
@@ -195,13 +192,13 @@ Claude Code *can* externalize each permission decision (`--permission-prompt-too
 
 ---
 
-## 🧪 Testing
+## Testing
 
-A full, staged test path (plan → boundary → continuity → stream management) lives in **[ONBOARDING.md](./ONBOARDING.md)**. Start there if you're verifying the plugin on a new setup.
+A full, staged test path (plan → boundary → continuity → stream management) lives in **[ONBOARDING.md](./ONBOARDING.md)**. Start there if you are verifying the plugin on a new setup.
 
 ---
 
-## 🩺 Troubleshooting
+## Troubleshooting
 
 <details>
 <summary><code>docker not found on PATH where Hermes runs</code></summary>
@@ -212,11 +209,11 @@ The plugin shells out to `docker`. Ensure Docker is installed and the user runni
 </details>
 
 <details>
-<summary>Tasks start cold / Claude doesn't remember previous work</summary>
+<summary>Tasks start cold / Claude does not remember previous work</summary>
 
 <br/>
 
-Continuity relies on the stream's volume and the `--continue` flag. Confirm you're reusing the **same `stream_id`**, and that you didn't pass `fresh_session: true`. Check the volume exists: `docker volume ls | grep cc-hermes-vol`.
+Continuity relies on the stream's volume and the `--continue` flag. Confirm you are reusing the **same `stream_id`**, and that you did not pass `fresh_session: true`. Check the volume exists: `docker volume ls | grep cc-hermes-vol`.
 </details>
 
 <details>
@@ -224,7 +221,7 @@ Continuity relies on the stream's volume and the `--continue` flag. Confirm you'
 
 <br/>
 
-Parsing of `claude -p --output-format json` is defensive, but field names can vary across Claude Code versions. Grab the raw output and open a 🐞 issue:
+Parsing of `claude -p --output-format json` is defensive, but field names can vary across Claude Code versions. Capture the raw output and open a bug report:
 
 ```bash
 docker exec cc-hermes-default claude -p "say hi" --output-format json
@@ -232,16 +229,16 @@ docker exec cc-hermes-default claude -p "say hi" --output-format json
 </details>
 
 <details>
-<summary>Claude says it was blocked / couldn't do something</summary>
+<summary>Claude says it was blocked or could not do something</summary>
 
 <br/>
 
-In headless mode there's no interactive prompt — if an action isn't permitted it's denied and reported. Use a less restrictive `permission_mode` (e.g. `sandbox`, since the container is isolated), or check `blocked_on_permissions` in the result.
+In headless mode there is no interactive prompt — if an action is not permitted it is denied and reported. Use a less restrictive `permission_mode` (e.g. `sandbox`, since the container is isolated), or check `blocked_on_permissions` in the result.
 </details>
 
 ---
 
-## 📐 Architecture
+## Architecture
 
 <details>
 <summary><strong>Repository layout</strong></summary>
@@ -255,11 +252,13 @@ claude-code-delegate/
 ├── schemas.py           # LLM-facing tool contracts
 ├── claude_runner.py     # container lifecycle + claude invocation + JSON parsing
 ├── Dockerfile           # sandbox image (claude-sandbox:latest)
-├── ONBOARDING.md        # tester quick-start & test path
-└── .github/ISSUE_TEMPLATE/
-    ├── bug_report.yml
-    ├── test_report.yml
-    └── config.yml
+├── ONBOARDING.md        # tester quick-start and test path
+└── .github/
+    ├── assets/banner.svg
+    └── ISSUE_TEMPLATE/
+        ├── bug_report.yml
+        ├── test_report.yml
+        └── config.yml
 ```
 </details>
 
@@ -269,7 +268,7 @@ claude-code-delegate/
 <br/>
 
 - **Isolation boundary = the stream**, not the task — related tasks share a warm box; unrelated streams stay separate.
-- **No shell injection surface** — every subprocess call uses argv lists (never `shell=True`); `stream_id` is allowlist-validated.
+- **No shell-injection surface** — every subprocess call uses argv lists (never `shell=True`); `stream_id` is allowlist-validated.
 - **Fail loud** — real errors are surfaced to Hermes rather than returning a silent half-result.
 - **Cleanup never breaks teardown** — the hibernate hook swallows its own errors.
 
@@ -277,7 +276,7 @@ claude-code-delegate/
 
 ---
 
-## ⚠️ Security notes
+## Security notes
 
 - The sandbox needs **network access** (Claude must reach the API), so it is **not** run with `--network none`.
 - Hardening applied per container: `--cap-drop ALL`, `--security-opt no-new-privileges`, memory/CPU limits.
@@ -286,18 +285,18 @@ claude-code-delegate/
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
 Issues and PRs welcome. When reporting, please use a template:
 
-- 🐞 **[Bug report](https://github.com/amanasmuei/hermes-claude-code-delegate/issues/new?template=bug_report.yml)** — something errored or misbehaved.
-- 🧪 **[Test report](https://github.com/amanasmuei/hermes-claude-code-delegate/issues/new?template=test_report.yml)** — confirm it works on your setup.
+- **[Bug report](https://github.com/amanasmuei/hermes-claude-code-delegate/issues/new?template=bug_report.yml)** — something errored or misbehaved.
+- **[Test report](https://github.com/amanasmuei/hermes-claude-code-delegate/issues/new?template=test_report.yml)** — confirm it works on your setup.
 
 Include your Hermes version, Claude Code version (`claude --version`), Docker version, OS, and the `permission_mode` used.
 
 ---
 
-## 📄 License
+## License
 
 [MIT](./LICENSE) © amanasmuei
 

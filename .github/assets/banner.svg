@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="360" viewBox="0 0 1280 360" fill="none" role="img" aria-label="claude-code-delegate — delegate tasks to a headless Claude Code agent in an isolated, per-stream Docker sandbox">
+  <defs>
+    <linearGradient id="flow" gradientUnits="userSpaceOnUse" x1="351" y1="0" x2="929" y2="0">
+      <stop offset="0" stop-color="#8B6FF0"/>
+      <stop offset="1" stop-color="#E0875F"/>
+    </linearGradient>
+    <linearGradient id="mark" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#8B6FF0"/>
+      <stop offset="1" stop-color="#E0875F"/>
+    </linearGradient>
+    <linearGradient id="rule" gradientUnits="userSpaceOnUse" x1="64" y1="0" x2="360" y2="0">
+      <stop offset="0" stop-color="#8B6FF0"/>
+      <stop offset="1" stop-color="#8B6FF0" stop-opacity="0"/>
+    </linearGradient>
+    <radialGradient id="glowL" cx="0.22" cy="0.30" r="0.6">
+      <stop offset="0" stop-color="#7C5CFF" stop-opacity="0.20"/>
+      <stop offset="1" stop-color="#7C5CFF" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowR" cx="0.82" cy="0.78" r="0.55">
+      <stop offset="0" stop-color="#D97757" stop-opacity="0.16"/>
+      <stop offset="1" stop-color="#D97757" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="dots" width="26" height="26" patternUnits="userSpaceOnUse">
+      <circle cx="1.5" cy="1.5" r="1.5" fill="#FFFFFF" fill-opacity="0.035"/>
+    </pattern>
+    <clipPath id="card">
+      <rect x="8" y="8" width="1264" height="344" rx="22"/>
+    </clipPath>
+  </defs>
+
+  <!-- card -->
+  <g clip-path="url(#card)">
+    <rect x="8" y="8" width="1264" height="344" rx="22" fill="#0B0E14"/>
+    <rect x="8" y="8" width="1264" height="344" fill="url(#dots)"/>
+    <rect x="8" y="8" width="1264" height="344" fill="url(#glowL)"/>
+    <rect x="8" y="8" width="1264" height="344" fill="url(#glowR)"/>
+  </g>
+  <rect x="8.5" y="8.5" width="1263" height="343" rx="21.5" fill="none" stroke="#FFFFFF" stroke-opacity="0.09"/>
+
+  <!-- monogram badge (caduceus, vector) -->
+  <rect x="1124" y="50" width="88" height="88" rx="22" fill="#10141D" stroke="#FFFFFF" stroke-opacity="0.10"/>
+  <g stroke="url(#mark)" stroke-width="2.2" stroke-linecap="round" fill="none">
+    <circle cx="1168" cy="71" r="4.2"/>
+    <path d="M1158 75 L1168 79 L1178 75"/>
+    <line x1="1168" y1="79" x2="1168" y2="120"/>
+    <path d="M1168 84 C1153 93 1153 106 1168 115"/>
+    <path d="M1168 84 C1183 93 1183 106 1168 115"/>
+  </g>
+
+  <!-- eyebrow -->
+  <text x="64" y="92" font-family="ui-monospace, 'SF Mono', 'JetBrains Mono', 'Fira Code', monospace" font-size="14" letter-spacing="4.5" fill="#7E8699">HERMES&#160;AGENT&#160;&#160;·&#160;&#160;PLUGIN</text>
+  <rect x="64" y="104" width="232" height="2" rx="1" fill="url(#rule)"/>
+
+  <!-- wordmark -->
+  <text x="62" y="172" font-family="ui-monospace, 'SF Mono', 'JetBrains Mono', 'Fira Code', monospace" font-size="54" font-weight="700" letter-spacing="-1.5" fill="#F4F6FA">claude-code-delegate</text>
+
+  <!-- tagline -->
+  <text x="64" y="210" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="19" fill="#A7AFC0">Hand a whole task to a headless Claude&#160;Code agent — it plans, executes, reports back.</text>
+  <text x="64" y="236" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="19" fill="#6E7689">Isolated&#160;&#160;·&#160;&#160;per-stream&#160;&#160;·&#160;&#160;continuous.</text>
+
+  <!-- delegation flow: Hermes -> sandbox -> Claude Code -->
+  <g>
+    <!-- connecting gradient line (revealed in the gaps as arrows) -->
+    <line x1="505" y1="296" x2="557" y2="296" stroke="url(#flow)" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M553 291 L562 296 L553 301" fill="none" stroke="url(#flow)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+    <line x1="719" y1="296" x2="771" y2="296" stroke="url(#flow)" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M767 291 L776 296 L767 301" fill="none" stroke="url(#flow)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <!-- node: Hermes -->
+    <rect x="351" y="268" width="150" height="56" rx="13" fill="#10141D" stroke="#FFFFFF" stroke-opacity="0.10"/>
+    <text x="426" y="301" text-anchor="middle" font-family="ui-monospace, 'SF Mono', 'JetBrains Mono', monospace" font-size="18" fill="#B9A8FF">Hermes</text>
+
+    <!-- node: sandbox (with lock glyph) -->
+    <rect x="565" y="268" width="150" height="56" rx="13" fill="#10141D" stroke="#FFFFFF" stroke-opacity="0.10"/>
+    <g stroke="#C9D1E0" stroke-width="1.7" fill="none">
+      <rect x="600" y="293" width="16" height="12" rx="2.2"/>
+      <path d="M603 293 v-3 a5 5 0 0 1 10 0 v3"/>
+    </g>
+    <text x="650" y="301" text-anchor="middle" font-family="ui-monospace, 'SF Mono', 'JetBrains Mono', monospace" font-size="18" fill="#C9D1E0">sandbox</text>
+
+    <!-- node: Claude Code -->
+    <rect x="779" y="268" width="150" height="56" rx="13" fill="#10141D" stroke="#FFFFFF" stroke-opacity="0.10"/>
+    <text x="854" y="301" text-anchor="middle" font-family="ui-monospace, 'SF Mono', 'JetBrains Mono', monospace" font-size="18" fill="#F0A47E">Claude Code</text>
+  </g>
+</svg>
