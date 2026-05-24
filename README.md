@@ -53,21 +53,21 @@ A delegated task in the default `boundary` mode, end to end:
 ```mermaid
 sequenceDiagram
     actor User
-    participant Hermes as Hermes (orchestrator)
+    participant Hermes
     participant Plugin as delegate_to_claude_code
-    participant Box as Docker sandbox (per stream)
-    participant CC as Claude Code (headless)
+    participant Sandbox as Docker sandbox
+    participant CC as Claude Code
 
-    User->>Hermes: "Delegate: create hello.py"
-    Hermes->>Plugin: call (permission_mode=boundary)
-    Plugin-->>Hermes: status = approval_required (+ preview)
+    User->>Hermes: Delegate - create hello.py
+    Hermes->>Plugin: call, permission_mode=boundary
+    Plugin-->>Hermes: status = approval_required, with preview
     Hermes->>User: Approve running this in the sandbox?
     User->>Hermes: yes
-    Hermes->>Plugin: call again (confirmed=true)
-    Plugin->>Box: ensure warm container + volume
-    Plugin->>CC: claude -p "<task>" --output-format json
+    Hermes->>Plugin: call again, confirmed=true
+    Plugin->>Sandbox: ensure warm container and volume
+    Plugin->>CC: claude -p TASK --output-format json
     CC-->>Plugin: JSON result
-    Plugin-->>Hermes: { status: completed, result, ... }
+    Plugin-->>Hermes: status completed, with result
     Hermes-->>User: summary
 ```
 
@@ -75,11 +75,11 @@ Each **stream** is its own isolated container + volume, so unrelated work never 
 
 ```mermaid
 flowchart LR
-    H["Hermes (host)"]
-    H -->|stream &quot;feature-x&quot;| A["cc-hermes-feature-x + volume"]
-    H -->|stream &quot;research&quot;| B["cc-hermes-research + volume"]
-    A --- A2["claude -p, continued via --continue"]
-    B --- B2["claude -p, continued via --continue"]
+    H["Hermes host"]
+    H -->|stream feature-x| A["cc-hermes-feature-x plus volume"]
+    H -->|stream research| B["cc-hermes-research plus volume"]
+    A --- A2["claude -p, continued via the continue flag"]
+    B --- B2["claude -p, continued via the continue flag"]
 ```
 
 ---
