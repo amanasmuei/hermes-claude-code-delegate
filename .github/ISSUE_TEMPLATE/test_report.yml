@@ -1,0 +1,53 @@
+name: 🧪 Test report
+description: It worked (or partly worked) — share your environment and which steps passed.
+title: "[test] "
+labels: ["test-report"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Confirming the plugin works on your setup is just as valuable as a bug
+        report — it tells us which environments are verified. Follow the test
+        path in [ONBOARDING.md](../blob/main/ONBOARDING.md) and report results.
+
+  - type: checkboxes
+    id: steps-passed
+    attributes:
+      label: Which steps passed?
+      description: Check each one that worked.
+      options:
+        - label: "Step A — plan mode (plan returned, nothing written)"
+        - label: "Step B — boundary mode (Hermes asked for approval before running)"
+        - label: "Step C — continuity (Claude remembered the previous task in the same stream)"
+        - label: "Step D — /cc-streams list / stop / warm resume"
+        - label: "Auto-hibernate on session end (container stopped when conversation ended)"
+
+  - type: dropdown
+    id: overall
+    attributes:
+      label: Overall result
+      options:
+        - "✅ Everything worked"
+        - "🟡 Worked with caveats (note below)"
+        - "🔴 Mostly didn't work (consider a bug report instead)"
+    validations:
+      required: true
+
+  - type: textarea
+    id: notes
+    attributes:
+      label: Notes / caveats
+      description: Anything surprising, rough edges, or wording that confused you.
+
+  - type: textarea
+    id: versions
+    attributes:
+      label: Environment
+      value: |
+        - Hermes version:
+        - Claude Code version (`claude --version`):
+        - Docker version (`docker --version`):
+        - OS / arch:
+        - Interface tested (CLI / Telegram / Discord / other):
+    validations:
+      required: true

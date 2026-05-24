@@ -1,0 +1,87 @@
+name: 🐞 Bug report
+description: Something errored or behaved unexpectedly while delegating to Claude Code.
+title: "[bug] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for the report! The most useful bugs include the **raw JSON** the
+        plugin returned and your **versions** — those two solve most issues fast.
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: What did you expect, and what did you get instead?
+      placeholder: I asked Hermes to delegate a task and ...
+    validations:
+      required: true
+
+  - type: dropdown
+    id: permission-mode
+    attributes:
+      label: permission_mode used
+      options:
+        - boundary (default)
+        - sandbox
+        - acceptEdits
+        - plan
+        - "not sure"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Which area?
+      description: Best guess — helps triage.
+      options:
+        - Tool call (delegate_to_claude_code)
+        - Approval handshake (boundary mode)
+        - Continuity (--continue / same stream)
+        - Stream management (/cc-streams, stop/remove)
+        - Auto-hibernate on session end
+        - Container / Docker lifecycle
+        - JSON result parsing (output looked wrong/truncated)
+        - Install / enable / build
+        - "Other / not sure"
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: Exact prompts/commands, in order.
+      placeholder: |
+        1. Asked Hermes: "Delegate to Claude Code: ..."
+        2. ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: output
+    attributes:
+      label: Plugin output / error
+      description: >-
+        The JSON the tool returned, any traceback, and (if relevant) the raw
+        Claude output from:
+        `docker exec cc-hermes-<stream> claude -p "say hi" --output-format json`
+      render: shell
+    validations:
+      required: true
+
+  - type: textarea
+    id: versions
+    attributes:
+      label: Environment
+      description: Fill in each line.
+      value: |
+        - Hermes version:
+        - Claude Code version (`claude --version`):
+        - Docker version (`docker --version`):
+        - OS / arch:
+        - Sandbox image (default claude-sandbox:latest? customized?):
+    validations:
+      required: true

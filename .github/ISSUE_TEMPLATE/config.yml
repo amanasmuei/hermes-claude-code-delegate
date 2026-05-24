@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 📖 Onboarding / test guide
+    url: https://github.com/amanasmuei/hermes-claude-code-delegate/blob/main/ONBOARDING.md
+    about: How to install and run the plugin's test path before filing an issue.
