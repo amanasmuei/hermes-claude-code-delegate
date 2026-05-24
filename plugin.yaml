@@ -1,0 +1,17 @@
+name: claude-code-delegate
+version: "1.0"
+description: >-
+  Delegate a task to a headless Claude Code agent running inside an isolated,
+  per-stream Docker sandbox. Supports continuous multi-task work (warm
+  containers + persistent volume + Claude session continuity) and a
+  permission_mode parameter for the human-in-the-loop posture.
+
+# Hermes prompts for these on `hermes plugins install` and refuses to enable
+# the plugin until they are present.
+requires_env:
+  - ANTHROPIC_API_KEY
+
+# Optional knobs (read at runtime from the environment if set):
+#   CLAUDE_SANDBOX_IMAGE   container image with `claude` on PATH (default: claude-sandbox:latest)
+#   CC_DELEGATE_MEMORY     docker --memory limit per stream container (default: 4g)
+#   CC_DELEGATE_CPUS       docker --cpus limit per stream container   (default: 2)
