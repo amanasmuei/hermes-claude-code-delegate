@@ -70,13 +70,13 @@
     <rect x="351" y="268" width="150" height="56" rx="13" fill="#10141D" stroke="#FFFFFF" stroke-opacity="0.10"/>
     <text x="426" y="301" text-anchor="middle" font-family="ui-monospace, 'SF Mono', 'JetBrains Mono', monospace" font-size="18" fill="#B9A8FF">Hermes</text>
 
-    <!-- node: sandbox (with lock glyph) -->
+    <!-- node: sandbox (lock glyph + label, centered as a group) -->
     <rect x="565" y="268" width="150" height="56" rx="13" fill="#10141D" stroke="#FFFFFF" stroke-opacity="0.10"/>
-    <g stroke="#C9D1E0" stroke-width="1.7" fill="none">
-      <rect x="600" y="293" width="16" height="12" rx="2.2"/>
-      <path d="M603 293 v-3 a5 5 0 0 1 10 0 v3"/>
+    <g stroke="#C9D1E0" stroke-width="1.7" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="590" y="291" width="15" height="12" rx="2.4"/>
+      <path d="M593 291 V288 A4.5 4.5 0 0 1 602 288 V291"/>
     </g>
-    <text x="650" y="301" text-anchor="middle" font-family="ui-monospace, 'SF Mono', 'JetBrains Mono', monospace" font-size="18" fill="#C9D1E0">sandbox</text>
+    <text x="616" y="301" text-anchor="start" font-family="ui-monospace, 'SF Mono', 'JetBrains Mono', monospace" font-size="18" fill="#C9D1E0">sandbox</text>
 
     <!-- node: Claude Code -->
     <rect x="779" y="268" width="150" height="56" rx="13" fill="#10141D" stroke="#FFFFFF" stroke-opacity="0.10"/>
